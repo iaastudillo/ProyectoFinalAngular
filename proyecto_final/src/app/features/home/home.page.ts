@@ -22,4 +22,12 @@ export class HomePage {
     'Formularios reactivos',
     'Local Storage',
   ];
+
+  //Desarrollo actividad 1
+  studentName: string = 'Ivo Astudillo';
+  studentEmail: string = 'ivo_astudillo@outlook.com';
+  studentCourse: string = 'Curso Angular Banco De Loja';
+  studentParallel: string = 'Paralelo A';
+  projectDescription: string =
+    'Proyecto de fin de curso cuyo objetivito es practicar conceptos modernos de Angular';
 }
