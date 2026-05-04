@@ -24,7 +24,7 @@ export class InterpolationPage {
    * - Todo debe salir desde propiedades del componente.
    */
 
-  //Desarrollo actividad 2.
+  // Desarrollo actividad 2 del README.md
   // Nota: ya se encuentra resuelta, solo se actualizan datos
 
   readonly student = signal({

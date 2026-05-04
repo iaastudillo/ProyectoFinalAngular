@@ -23,11 +23,11 @@ export class HomePage {
     'Local Storage',
   ];
 
-  //Desarrollo actividad 1
+  //Desarrollo actividad 1 del README.md
   studentName: string = 'Ivo Astudillo';
   studentEmail: string = 'ivo_astudillo@outlook.com';
   studentCourse: string = 'Curso Angular Banco De Loja';
   studentParallel: string = 'Paralelo A';
   projectDescription: string =
-    'Proyecto de fin de curso cuyo objetivito es practicar conceptos modernos de Angular';
+    'Proyecto de fin de curso cuyo objetivo es practicar conceptos modernos de Angular';
 }
