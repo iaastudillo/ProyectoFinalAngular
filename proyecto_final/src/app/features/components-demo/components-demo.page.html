@@ -21,6 +21,7 @@
       <app-student-card
         [student]="student"
         (selected)="onStudentSelected($event)"
+        (removeRequested)="onRemoveRequested($event)"
       />
     }
   </div>
@@ -32,6 +33,11 @@
       <p>{{ selectedStudent.email }}</p>
     </article>
   } @else {
-    <p>Selecciona un estudiante para ver el detalle.</p>
+    <!-- Desarrollo actividad 3 del README.md -->
+    @if (deletedStudent) {
+      <p>{{ alertMessage }}</p>
+    } @else {
+      <p>Selecciona un estudiante para ver el detalle.</p>
+    }
   }
 </section>

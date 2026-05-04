@@ -27,7 +27,8 @@ export class ComponentsDemoPage {
    * - El hijo solo debe emitir eventos.
    * - El padre debe decidir que hacer con la lista.
    */
-  readonly students: StudentView[] = [
+
+  students: StudentView[] = [
     {
       id: 1,
       fullName: 'Ana Mora',
@@ -42,11 +43,32 @@ export class ComponentsDemoPage {
       active: true,
       activeLabel: 'Activo',
     },
+    {
+      id: 3,
+      fullName: 'Ivo Astudillo',
+      email: 'ivo_astudillo@outlook.com',
+      active: false,
+      activeLabel: 'Inactivo',
+    },
   ];
 
   selectedStudent: StudentView | null = null;
+  deletedStudent: StudentView | null = null;
+  alertMessage: string = '';
 
   onStudentSelected(student: StudentView): void {
     this.selectedStudent = student;
+  }
+
+  //Desarrollo actividad 3 del README.md
+  onRemoveRequested(student: StudentView): void {
+    this.selectedStudent = null;
+    this.deletedStudent = student;
+    if (student.active) {
+      this.alertMessage = `No se puede eliminar el estudiante ${student.fullName} porque está activo.`;
+    } else {
+      this.students = this.students.filter((s) => s.id !== student.id);
+      this.alertMessage = `El estudiante ${student.fullName} ha sido eliminado correctamente.`;
+    }
   }
 }

@@ -11,4 +11,8 @@ button {
   color: #ffffff;
   cursor: pointer;
   padding: 8px 12px;
+  margin: 16px 8px 0 0;
+}
+.student-card-inactive {
+  border: 1px solid rgb(255, 95, 95);
 }
