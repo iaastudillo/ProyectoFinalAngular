@@ -16,6 +16,10 @@
   Resultado esperado:
   Una tarjeta con datos legibles de estudiante y producto, y cambios reactivos simples.
 -->
+
+<!-- Desarrollo actividad 2. -->
+<!-- Nota: ya se encuentra resuelta  -->
+
 <section class="section">
   <h1>Interpolacion</h1>
 
@@ -36,7 +40,14 @@
 
     <label>
       IVA (%)
-      <input #taxInput type="number" min="0" max="100" value="12" (input)="updateTaxRate(taxInput.value)" />
+      <input
+        #taxInput
+        type="number"
+        min="0"
+        max="100"
+        value="12"
+        (input)="updateTaxRate(taxInput.value)"
+      />
     </label>
 
     <button type="button" (click)="addStock()">Agregar stock</button>

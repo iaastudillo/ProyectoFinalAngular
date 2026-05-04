@@ -23,10 +23,14 @@ export class InterpolationPage {
    * - No escribir valores fijos en el HTML.
    * - Todo debe salir desde propiedades del componente.
    */
+
+  //Desarrollo actividad 2.
+  // Nota: ya se encuentra resuelta, solo se actualizan datos
+
   readonly student = signal({
-    firstName: 'Ana',
-    lastName: 'Mora',
-    email: 'ana.mora@example.com',
+    firstName: 'Ivo',
+    lastName: 'Astudillo',
+    email: 'ivo_astudillo@outlook.com',
     active: true,
   });
 
@@ -37,7 +41,7 @@ export class InterpolationPage {
     category: 'Tecnologia',
   });
 
-  readonly taxRate = signal(0.12);
+  readonly taxRate = signal(0.15);
 
   readonly studentFullName = computed(() => {
     const student = this.student();
