@@ -1,7 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { TaskView } from '../../models/task.model';
 
 type DemoState = 'loading' | 'empty' | 'error' | 'ready';
+//Desarrollo actividad 4
+type TaskStatusFilter = 'all' | 'pending' | 'in_progress' | 'done';
 
 @Component({
   selector: 'app-control-flow-page',
@@ -58,4 +60,20 @@ export class ControlFlowPage {
   setState(state: DemoState): void {
     this.state.set(state);
   }
+
+  readonly selectedFilter = signal<TaskStatusFilter>('all');
+
+  setFilter(filter: TaskStatusFilter): void {
+    this.selectedFilter.set(filter);
+  }
+
+  readonly filteredTasks = computed(() => {
+    const filter = this.selectedFilter();
+    const tasks = this.tasks();
+
+    if (filter === 'all') {
+      return tasks;
+    }
+    return tasks.filter((task) => task.status === filter);
+  });
 }

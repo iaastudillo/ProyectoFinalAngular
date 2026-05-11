@@ -15,6 +15,8 @@
   Resultado esperado:
   El usuario puede simular carga, vacio, error y datos listos.
 -->
+
+<!--Desarrollo actividad 4 -->
 <section class="section">
   <h1>Control Flow</h1>
 
@@ -23,6 +25,12 @@
     <button type="button" (click)="setState('empty')">Empty</button>
     <button type="button" (click)="setState('error')">Error</button>
     <button type="button" (click)="setState('ready')">Ready</button>
+    @if (state() === 'ready') {
+      <button type="button" (click)="setFilter('all')">Todas</button>
+      <button type="button" (click)="setFilter('pending')">Pendientes</button>
+      <button type="button" (click)="setFilter('in_progress')">En Progreso</button>
+      <button type="button" (click)="setFilter('done')">Completadas</button>
+    }
   </div>
 
   @if (state() === 'loading') {
@@ -30,17 +38,21 @@
   } @else if (state() === 'empty') {
     <p>No hay tareas para mostrar.</p>
   } @else if (state() === 'error') {
-    <p class="error">Ocurrio un error simulado.</p>
+    <p class="error">Ocurrió un error simulado.</p>
   } @else {
-    <div class="grid">
-      @for (task of tasks(); track task.id) {
-        <article class="card">
-          <h2>{{ task.title }}</h2>
-          <p>{{ task.summary }}</p>
-          <p>Estado: {{ task.statusLabel }}</p>
-          <p>Prioridad: {{ task.priorityLabel }}</p>
-        </article>
-      }
-    </div>
+    @if (filteredTasks().length === 0) {
+      <p>No existen tareas con ese estado.</p>
+    } @else {
+      <div class="grid">
+        @for (task of filteredTasks(); track task.id) {
+          <article class="card">
+            <h2>{{ task.title }}</h2>
+            <p>{{ task.summary }}</p>
+            <p>Estado: {{ task.statusLabel }}</p>
+            <p>Prioridad: {{ task.priorityLabel }}</p>
+          </article>
+        }
+      </div>
+    }
   }
 </section>
