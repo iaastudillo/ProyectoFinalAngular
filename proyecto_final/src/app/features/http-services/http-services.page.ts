@@ -1,6 +1,6 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, inject, signal } from '@angular/core';
+import { catchError, Observable, of } from 'rxjs';
 import { AcademicApiService } from '../../services/academic-api.service';
 import { CategoryView } from '../../models/category.model';
 import { ProductView } from '../../models/product.model';
@@ -36,9 +36,32 @@ export class HttpServicesPage {
    */
   private readonly academicApi = inject(AcademicApiService);
 
-  readonly categories$: Observable<CategoryView[]> = this.academicApi.getCategories();
-  readonly products$: Observable<ProductView[]> = this.academicApi.getProducts();
-  readonly tasks$: Observable<TaskView[]> = this.academicApi.getTasks();
+  categoriError = signal<string | null>(null);
+  productsError = signal<string | null>(null);
+  tasksError = signal<string | null>(null);
+
+  readonly categories$: Observable<CategoryView[]> = this.academicApi.getCategories().pipe(
+    catchError((error) => {
+      console.error('Error al cargar categorias:', error);
+      this.categoriError.set('No se pudo cargar categorias, intenta de nuevo mas tarde');
+      return of([]);
+    }),
+  );
+
+  readonly products$: Observable<ProductView[]> = this.academicApi.getProducts().pipe(
+    catchError((error) => {
+      console.error('Error al cargar productos:', error);
+      this.productsError.set('No se pudo cargar productos, intenta de nuevo mas tarde');
+      return of([]);
+    }),
+  );
+  readonly tasks$: Observable<TaskView[]> = this.academicApi.getTasks().pipe(
+    catchError((error) => {
+      console.error('Error al cargar tareas:', error);
+      this.tasksError.set('No se pudo cargar tareas, intenta de nuevo mas tarde');
+      return of([]);
+    }),
+  );
 
   readonly exampleJson = {
     endpoint: '/api/tasks',

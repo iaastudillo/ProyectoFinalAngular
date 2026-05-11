@@ -26,45 +26,69 @@
 
   <h2>Categories desde API</h2>
   @if (categories$ | async; as categories) {
-    <ul>
-      @for (category of categories; track category.id) {
-        <li>{{ category.name }} - {{ category.description }}</li>
-      }
-    </ul>
+    @if (categoriError()) {
+      <p class="error">{{ categoriError() }}</p>
+    } @else if (categories.length === 0) {
+      <p>No hay categorias disponibles</p>
+    } @else {
+      <ul>
+        @for (category of categories; track category.id) {
+          <li>{{ category.name }} - {{ category.description }}</li>
+        }
+      </ul>
+    }
   } @else {
-    <p>Cargando categories...</p>
+    <p>Cargando categorias...</p>
   }
 
   <h2>Products desde API</h2>
   @if (products$ | async; as products) {
-    <div class="grid">
-      @for (product of products; track product.id) {
-        <article class="card">
-          <h3>{{ product.name }}</h3>
-          <p>{{ product.priceLabel }}</p>
-          <p>{{ product.stockLabel }}</p>
-          <p>{{ product.categoryName }}</p>
-          <!--
+    @if (productsError()) {
+      <p class="error">{{ productsError() }}</p>
+    } @else if (products.length === 0) {
+      <p>No hay productos disponibles</p>
+    } @else {
+      <div class="grid">
+        @for (product of products; track product.id) {
+          <article class="card">
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.priceLabel }}</p>
+            <p>{{ product.stockLabel }}</p>
+            <p>{{ product.categoryName }}</p>
+            <!--
             TODO estudiante:
             Si ves "TODO: calcular stock" o "TODO: mapear categoria",
             el problema NO esta en este HTML.
-            Debes resolverlo en mapProductApiToView().
-          -->
-        </article>
-      }
-    </div>
+            Debes resolverlo en mapProductApiToView().-->
+          </article>
+        }
+      </div>
+    }
+  } @else {
+    <p>Cargando productos...</p>
   }
 
   <h2>Tasks desde API</h2>
   @if (tasks$ | async; as tasks) {
-    <ul>
-      @for (task of tasks; track task.id) {
-        <li>{{ task.title }} - {{ task.statusLabel }} - {{ task.studentLabel }}</li>
-        <!--
+    @if (tasksError()) {
+      <p class="error">{{ tasksError() }}</p>
+    } @else if (tasks.length === 0) {
+      <p>No hay tareas disponibles</p>
+    } @else {
+      <ul>
+        @for (task of tasks; track task.id) {
+          <li>
+            {{ task.title }} - {{ task.statusLabel }} - {{ task.studentLabel }} -
+            {{ task.dueDateLabel }}
+          </li>
+          <!--
           TODO estudiante:
           Agrega task.dueDateLabel cuando completes el mapper de fecha.
         -->
-      }
-    </ul>
+        }
+      </ul>
+    }
+  } @else {
+    <p>Cargando tareas...</p>
   }
 </section>

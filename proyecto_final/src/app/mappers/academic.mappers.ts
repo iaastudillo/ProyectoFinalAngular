@@ -26,6 +26,18 @@ import { TaskApi, TaskPriority, TaskStatus, TaskView } from '../models/task.mode
  * - El mapper debe devolver un objeto nuevo.
  */
 
+//DESAROLLO TAREA 5 DEL README.md
+
+function stockLabelCondition(stock: number): string {
+  if (stock === 0) {
+    return 'Sin stock';
+  } else if (stock > 0 && stock < 5) {
+    return `${stock} unidades - Quedan pocas unidades`;
+  } else {
+    return `${stock} unidades`;
+  }
+}
+
 export function mapCategoryApiToView(category: CategoryApi): CategoryView {
   return {
     id: category.id,
@@ -36,7 +48,11 @@ export function mapCategoryApiToView(category: CategoryApi): CategoryView {
      * Cambia este formato si quieres mostrar fecha con hora o con locale especifico.
      * Pista: prueba toLocaleDateString('es-EC') o Intl.DateTimeFormat.
      */
-    createdAtLabel: new Date(category.created_at).toLocaleDateString(),
+    createdAtLabel: new Date(category.created_at).toLocaleDateString('es-EC', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }),
   };
 }
 
@@ -57,7 +73,7 @@ export function mapProductApiToView(product: ProductApi): ProductView {
      *
      * Ahora se deja un texto temporal para que la pantalla compile.
      */
-    stockLabel: 'TODO: calcular stock',
+    stockLabel: stockLabelCondition(product.stock),
     /*
      * TODO estudiante:
      * Reemplaza este texto por product.category_name.
@@ -66,7 +82,7 @@ export function mapProductApiToView(product: ProductApi): ProductView {
      * Criterio de aceptacion:
      * - En la pagina Servicios HTTP ya no debe aparecer "TODO: mapear categoria".
      */
-    categoryName: 'TODO: mapear categoria',
+    categoryName: product.category_name ?? 'Sin categoria',
   };
 }
 
@@ -78,7 +94,7 @@ export function mapStudentApiToView(student: StudentApi): StudentView {
      * Prueba cambiar el orden a "Apellido, Nombre".
      * Tambien puedes normalizar espacios si el backend enviara valores con espacios extra.
      */
-    fullName: `${student.first_name} ${student.last_name}`,
+    fullName: `${student.last_name}, ${student.first_name}`.trim(),
     email: student.email,
     active: student.active,
     activeLabel: student.active ? 'Activo' : 'Inactivo',
@@ -105,7 +121,13 @@ export function mapTaskApiToView(task: TaskApi): TaskView {
      *
      * Ahora se deja parcialmente resuelto para que la app compile.
      */
-    dueDateLabel: task.due_date ? 'TODO: formatear fecha' : 'Sin fecha',
+    dueDateLabel: task.due_date
+      ? new Date(task.due_date).toLocaleDateString('es-EC', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })
+      : 'Sin fecha',
   };
 }
 
@@ -130,9 +152,9 @@ export function mapTaskPriorityToLabel(priority: TaskPriority): string {
    * - No se debe cambiar el union type TaskPriority.
    */
   const labels: Record<TaskPriority, string> = {
-    low: 'Baja',
-    medium: 'Media',
-    high: 'Alta',
+    low: 'Baja - resolver despues de las tareas altas y medias',
+    medium: 'Media - resolver despues de las tareas altas y antes de las bajas',
+    high: 'Alta - resolver primero',
   };
 
   return labels[priority];

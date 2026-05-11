@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable, tap, throwError } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { API_BASE_URL } from '../core/constants/api.constants';
 import {
   mapCategoryApiToView,
@@ -48,6 +48,8 @@ export class AcademicApiService {
    * - Todo endpoint debe usar ApiResponse<T>.
    * - Todo dato mostrado en HTML debe pasar por un ViewModel o mapper.
    */
+
+  //DESAROLLO TAREA 5 DEL README.md
   private readonly http = inject(HttpClient);
 
   getCategories(): Observable<CategoryView[]> {
@@ -82,6 +84,7 @@ export class AcademicApiService {
        * Pista:
        * tap((response) => console.log('Respuesta cruda students:', response))
        */
+      tap((response) => console.log('Respuesta cruda students:', response)),
       map((response) => response.data.map(mapStudentApiToView)),
     );
   }
@@ -123,8 +126,10 @@ export class AcademicApiService {
      * Se usa void payload para que TypeScript no marque el parametro como no usado
      * mientras el metodo queda como ejercicio pendiente.
      */
-    void payload;
-    return throwError(() => new Error('TODO estudiante: implementar POST /api/tasks'));
+    return this.http.post<ApiResponse<TaskApi>>(`${API_BASE_URL}/tasks`, payload).pipe(
+      tap((response) => console.log('Respuesta cruda createTask:', response)),
+      map((response) => mapTaskApiToView(response.data)),
+    );
   }
 
   /*
