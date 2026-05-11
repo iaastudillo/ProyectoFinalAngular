@@ -26,7 +26,7 @@ import { TaskApi, TaskPriority, TaskStatus, TaskView } from '../models/task.mode
  * - El mapper debe devolver un objeto nuevo.
  */
 
-//DESAROLLO TAREA 5 DEL README.md
+//DESAROLLO TAREA 5 y 6 DEL README.md
 
 function stockLabelCondition(stock: number): string {
   if (stock === 0) {

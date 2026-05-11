@@ -11,7 +11,7 @@ import {
 import { ApiResponse } from '../models/api-response.model';
 import { CategoryApi, CategoryView } from '../models/category.model';
 import { ProductApi, ProductView } from '../models/product.model';
-import { StudentApi, StudentView } from '../models/student.model';
+import { CreateStudentPayload, StudentApi, StudentView } from '../models/student.model';
 import { CreateTaskPayload, TaskApi, TaskView } from '../models/task.model';
 
 @Injectable({ providedIn: 'root' })
@@ -49,7 +49,7 @@ export class AcademicApiService {
    * - Todo dato mostrado en HTML debe pasar por un ViewModel o mapper.
    */
 
-  //DESAROLLO TAREA 5 DEL README.md
+  //DESAROLLO TAREA 5 y 6 DEL README.md
   private readonly http = inject(HttpClient);
 
   getCategories(): Observable<CategoryView[]> {
@@ -148,4 +148,10 @@ export class AcademicApiService {
    * - El payload debe usar los nombres que espera el backend: first_name,
    *   last_name, email y active.
    */
+  createStudent(payload: CreateStudentPayload): Observable<StudentView> {
+    return this.http.post<ApiResponse<StudentApi>>(`${API_BASE_URL}/students`, payload).pipe(
+      tap((response) => console.log('Respuesta cruda createStudent:', response)),
+      map((response) => mapStudentApiToView(response.data)),
+    );
+  }
 }

@@ -7,6 +7,9 @@
  * 2. Usarla en AcademicApiService cuando implemente createStudent().
  * 3. Agregar campos al ViewModel solo si la vista los necesita.
  */
+
+//DESAROLLO TAREA 6 DEL README.md
+
 export interface StudentApi {
   id: number;
   first_name: string;
@@ -42,3 +45,9 @@ export interface StudentView {
  *   active: boolean;
  * }
  */
+export interface CreateStudentPayload {
+  first_name: string;
+  last_name: string;
+  email: string;
+  active: boolean;
+}
