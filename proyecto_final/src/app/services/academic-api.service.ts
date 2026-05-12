@@ -154,4 +154,11 @@ export class AcademicApiService {
       map((response) => mapStudentApiToView(response.data)),
     );
   }
+  //DESARROLLO ACTIVIDAD 7
+  getTaskById(id: number): Observable<TaskView> {
+    return this.http.get<ApiResponse<TaskApi>>(`${API_BASE_URL}/tasks/${id}`).pipe(
+      tap((response) => console.log('Respuesta cruda getTaskById:', response)),
+      map((response) => mapTaskApiToView(response.data)),
+    );
+  }
 }

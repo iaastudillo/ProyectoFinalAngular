@@ -10,8 +10,31 @@
   Resultado esperado:
   La URL /rutas/1 muestra id = 1.
 -->
+
+<!-- DESARROLLO ACTIVIDAD 7 -->
 <article class="card">
   <h2>Detalle de ruta</h2>
-  <p>Parametro recibido: {{ routeId() }}</p>
+
+  @if (routeId(); as id) {
+    <p>id: {{ id }}</p>
+
+    @if (task$) {
+      @if (task$ | async; as task) {
+        <p>Titulo: {{ task.title }}</p>
+        <p>Descripcion: {{ task.summary }}</p>
+        <p>Estado: {{ task.statusLabel }}</p>
+        <p>Prioridad: {{ task.priorityLabel }}</p>
+        <p>Estudiante: {{ task.studentLabel }}</p>
+        <p>Fecha limite: {{ task.dueDateLabel }}</p>
+      } @else if (errorMessage()) {
+        <p class="error">{{ errorMessage() }}</p>
+      } @else {
+        <p>Cargando tarea...</p>
+      }
+    }
+  } @else {
+    <p class="error">Ruta invalida. El id debe ser un numero entero positivo.</p>
+  }
+
   <a routerLink="/rutas">Volver</a>
 </article>

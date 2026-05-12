@@ -20,14 +20,20 @@ export const routesDemoRoutes: Routes = [
    * - La nueva ruta debe cargarse con loadComponent.
    * - No debe importarse el componente directamente arriba si sera lazy loaded.
    */
+
+  // DESARROLLO ACTIVIDAD 7
   {
     path: '',
     component: RoutesShellPage,
     children: [
       {
         path: '',
+        loadComponent: () => import('./route-list/route-list.page').then((m) => m.RouteListPage),
+      },
+      {
+        path: 'crear',
         loadComponent: () =>
-          import('./route-list/route-list.page').then((m) => m.RouteListPage),
+          import('./routes-create/routes-create.page').then((m) => m.RoutesCreate),
       },
       {
         path: ':id',

@@ -8,6 +8,9 @@
   Resultado esperado:
   Clic en una practica navega a /rutas/:id.
 -->
+
+<!-- DESARROLLO ACTIVIDAD 7 -->
+
 <p>Selecciona una practica para ver el parametro en la URL.</p>
 
 <ul>
@@ -16,4 +19,7 @@
       <a [routerLink]="[lesson.id]">{{ lesson.title }}</a>
     </li>
   }
+  <li>
+    <a routerLink="/rutas/crear">Crear Ruta</a>
+  </li>
 </ul>
