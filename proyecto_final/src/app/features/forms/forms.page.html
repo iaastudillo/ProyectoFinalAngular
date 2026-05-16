@@ -78,7 +78,7 @@
     <div formArrayName="subtasks">
       <h2>Subtareas</h2>
 
-      @for (subtask of subtasks.controls; track $index; let index = $index) {
+      @for (subtask of subtasks.controls; track subtask; let index = $index) {
         <div class="inline-field">
           <input type="text" [formControlName]="index" />
           <button type="button" (click)="removeSubtask(index)">Quitar</button>
