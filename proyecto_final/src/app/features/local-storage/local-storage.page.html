@@ -25,6 +25,27 @@
     />
   </label>
 
+  <label>
+    Estado del filtro
+    <select [value]="selectedStatus()" (change)="updateSelectedStatus($any($event.target).value)">
+      <option value="pending">Pendiente</option>
+      <option value="in_progress">En progreso</option>
+      <option value="done">Terminada</option>
+    </select>
+  </label>
+
+  <label>
+    Prioridad del filtro
+    <select
+      [value]="selectedPriority()"
+      (change)="updateSelectedPriority($any($event.target).value)"
+    >
+      <option value="low">Baja</option>
+      <option value="medium">Media</option>
+      <option value="high">Alta</option>
+    </select>
+  </label>
+
   <div class="actions">
     <button type="button" (click)="saveName()">Guardar nombre</button>
     <button type="button" (click)="clearName()">Limpiar</button>
@@ -35,5 +56,12 @@
     <p>Nombre actual: {{ studentName() }}</p>
   } @else {
     <p>No hay nombre guardado todavia.</p>
+  }
+
+  @if (taskFilter(); as filter) {
+    <p>Filtro pendiente:</p>
+    prioridad {{ filter.priority }} estado {{ filter.status }}
+  } @else {
+    <p>No hay filtro pendiente guardado.</p>
   }
 </section>

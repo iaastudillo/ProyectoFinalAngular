@@ -1,9 +1,16 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { LocalStorageService } from '../../core/storage/local-storage.service';
 import { TaskView } from '../../models/task.model';
 
 type DemoState = 'loading' | 'empty' | 'error' | 'ready';
 //Desarrollo actividad 4
 type TaskStatusFilter = 'all' | 'pending' | 'in_progress' | 'done';
+type SavedTaskFilter = {
+  status: Exclude<TaskStatusFilter, 'all'>;
+  priority: 'low' | 'medium' | 'high';
+};
+
+const TASK_FILTER_KEY = 'academic-task-filter';
 
 @Component({
   selector: 'app-control-flow-page',
@@ -32,6 +39,12 @@ export class ControlFlowPage {
    * Pista:
    * En modo zoneless, signal ayuda a actualizar la vista de forma explicita.
    */
+  private readonly storage = inject(LocalStorageService);
+  private readonly savedFilter = this.storage.getItem<SavedTaskFilter | null>(
+    TASK_FILTER_KEY,
+    null,
+  );
+
   readonly state = signal<DemoState>('ready');
 
   readonly tasks = signal<TaskView[]>([
@@ -55,13 +68,23 @@ export class ControlFlowPage {
       studentLabel: 'Sin estudiante asignado',
       dueDateLabel: 'Sin fecha',
     },
+    {
+      id: 3,
+      title: 'Crear funcionalidad de localStorage',
+      summary: 'Practicar localStorage.',
+      status: 'pending',
+      statusLabel: 'Pendiente',
+      priorityLabel: 'Alta',
+      studentLabel: 'Sin estudiante asignado',
+      dueDateLabel: 'Sin fecha',
+    },
   ]);
 
   setState(state: DemoState): void {
     this.state.set(state);
   }
 
-  readonly selectedFilter = signal<TaskStatusFilter>('all');
+  readonly selectedFilter = signal<TaskStatusFilter>(this.savedFilter?.status ?? 'all');
 
   setFilter(filter: TaskStatusFilter): void {
     this.selectedFilter.set(filter);

@@ -1,7 +1,16 @@
 import { Component, inject, signal } from '@angular/core';
 import { LocalStorageService } from '../../core/storage/local-storage.service';
 
+//DESARROLLO ACTIVIDAD 9
 const STUDENT_NAME_KEY = 'academic-student-name';
+const TASK_FILTER_KEY = 'academic-task-filter';
+type TaskStatusFilter = 'pending' | 'in_progress' | 'done';
+type TaskPriorityFilter = 'low' | 'medium' | 'high';
+
+type TaskFilter = {
+  status: TaskStatusFilter;
+  priority: TaskPriorityFilter;
+};
 
 @Component({
   selector: 'app-local-storage-page',
@@ -29,9 +38,24 @@ export class LocalStoragePage {
    * - Al recargar el navegador, el dato guardado debe seguir visible.
    * - Debe existir un boton para limpiar lo guardado.
    */
+
   private readonly storage = inject(LocalStorageService);
 
   readonly studentName = signal(this.storage.getItem<string>(STUDENT_NAME_KEY, ''));
+  readonly taskFilter = signal<TaskFilter | null>(
+    this.storage.getItem<TaskFilter | null>(TASK_FILTER_KEY, null),
+  );
+
+  readonly selectedStatus = signal<TaskStatusFilter>(this.taskFilter()?.status ?? 'pending');
+  readonly selectedPriority = signal<TaskPriorityFilter>(this.taskFilter()?.priority ?? 'high');
+
+  updateSelectedStatus(value: TaskStatusFilter): void {
+    this.selectedStatus.set(value);
+  }
+
+  updateSelectedPriority(value: TaskPriorityFilter): void {
+    this.selectedPriority.set(value);
+  }
 
   updateStudentName(value: string): void {
     this.studentName.set(value);
@@ -44,6 +68,8 @@ export class LocalStoragePage {
   clearName(): void {
     this.storage.removeItem(STUDENT_NAME_KEY);
     this.studentName.set('');
+    this.storage.removeItem(TASK_FILTER_KEY);
+    this.taskFilter.set(null);
   }
 
   savePendingFilter(): void {
@@ -57,5 +83,12 @@ export class LocalStoragePage {
      * 2. Usar this.storage.setItem(TASK_FILTER_KEY, filtro).
      * 3. Crear una signal para mostrar el filtro recuperado.
      */
+    const filter: TaskFilter = {
+      status: this.selectedStatus(),
+      priority: this.selectedPriority(),
+    };
+
+    this.storage.setItem(TASK_FILTER_KEY, filter);
+    this.taskFilter.set(filter);
   }
 }
