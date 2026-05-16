@@ -17,10 +17,32 @@
   Resultado esperado:
   El formulario valida campos, permite agregar subtareas y prepara datos para POST.
 -->
+
+<!-- DESARROLLO ACTIVIDAD 8 -->
 <section class="section">
   <h1>Formularios reactivos</h1>
 
   <form class="form" [formGroup]="taskForm" (ngSubmit)="submit()">
+    <label>
+      ID del estudiante
+      <input type="number" formControlName="student_id" />
+    </label>
+
+    @if (
+      taskForm.controls.student_id.touched && taskForm.controls.student_id.hasError('required')
+    ) {
+      <p class="error">El ID del estudiante es obligatorio.</p>
+    }
+
+    <label>
+      Fecha de entrega
+      <input type="date" formControlName="due_date" />
+    </label>
+
+    @if (taskForm.controls.due_date.touched && taskForm.controls.due_date.hasError('required')) {
+      <p class="error">La fecha de entrega es obligatoria.</p>
+    }
+
     <label>
       Titulo
       <input type="text" formControlName="title" />
@@ -35,6 +57,9 @@
       Cuando agregues Validators.minLength(3), muestra aqui un mensaje si el titulo es muy corto.
       Criterio de aceptacion: el mensaje debe aparecer solo si el control fue tocado.
     -->
+    @if (taskForm.controls.title.touched && taskForm.controls.title.hasError('minlength')) {
+      <p class="error">El titulo debe tener al menos 3 caracteres.</p>
+    }
 
     <label>
       Descripcion
@@ -63,12 +88,23 @@
           Mostrar un mensaje de error si esta subtarea esta vacia y ya fue tocada.
           Pista: subtask.touched && subtask.hasError('required')
         -->
+        @if (subtask.touched && subtask.hasError('required')) {
+          <p class="error">La subtarea no puede estar vacia.</p>
+        }
       }
     </div>
 
     <button type="button" (click)="addSubtask()">Agregar subtarea</button>
     <button type="button" (click)="saveDraft()">Guardar borrador</button>
     <button type="submit">Enviar</button>
+
+    @if (errorMessage()) {
+      <p class="error">{{ errorMessage() }}</p>
+    }
+
+    @if (successMessage()) {
+      <p class="success">{{ successMessage() }}</p>
+    }
   </form>
 
   <article class="card">

@@ -2,6 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { LocalStorageService } from '../core/storage/local-storage.service';
 
 export interface TaskDraft {
+  student_id: string;
+  due_date: string;
+  priority?: 'low' | 'medium' | 'high';
   title: string;
   description: string;
 }
@@ -21,6 +24,9 @@ export class TaskDraftStorageService {
 
   loadDraft(): TaskDraft {
     return this.storage.getItem<TaskDraft>(TASK_DRAFT_KEY, {
+      student_id: '',
+      due_date: '',
+      priority: 'medium',
       title: '',
       description: '',
     });
